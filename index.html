@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToxicMC.de - Citybuild Server</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+        }
+        
+        .logo {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .subtitle {
+            font-size: clamp(16px, 2.5vw, 24px);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .server-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .server-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .server-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+        }
+        
+        .server-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .server-card:hover::before {
+            left: 0;
+        }
+        
+        .server-type {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .server-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .java-icon {
+            background: linear-gradient(135deg, #f76707, #fd7e14);
+        }
+        
+        .bedrock-icon {
+            background: linear-gradient(135deg, #0066cc, #4dabf7);
+        }
+        
+        .server-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .server-info {
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .info-item:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e0;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+            background: #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .discord-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .discord-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #5865f2;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+        }
+        
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(88, 101, 242, 0.4);
+        }
+        
+        .discord-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .feature-desc {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #48bb78;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 30px 20px;
+                margin: 0 10px 40px;
+            }
+            
+            .server-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .server-card {
+                padding: 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">ToxicMC.de</h1>
+            <p class="subtitle">Dein Premium Citybuild Server</p>
+        </div>
+        
+        <div class="main-content">
+            <h2 class="section-title">Server Verbindung</h2>
+            
+            <div class="server-grid">
+                <div class="server-card">
+                    <div class="server-type">
+                        <div class="server-icon java-icon">☕</div>
+                        <div class="server-title">Java Edition</div>
+                    </div>
+                    
+                    <div class="server-info">
+                        <div class="info-item">
+                            <span class="info-label">Server IP:</span>
+                            <span class="info-value">toxicmc.de</span>
+                        </div>
+                    </div>
+                    
+                    <button class="copy-btn" onclick="copyToClipboard('toxicmc.de', 'Java IP')">
+                        IP Kopieren
+                    </button>
+                </div>
+                
+                <div class="server-card">
+                    <div class="server-type">
+                        <div class="server-icon bedrock-icon">📱</div>
+                        <div class="server-title">Bedrock Edition</div>
+                    </div>
+                    
+                    <div class="server-info">
+                        <div class="info-item">
+                            <span class="info-label">Server IP:</span>
+                            <span class="info-value">toxicmc.de</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Port:</span>
+                            <span class="info-value">19132</span>
+                        </div>
+                    </div>
+                    
+                    <button class="copy-btn" onclick="copyToClipboard('toxicmc.de:19132', 'Bedrock Verbindung')">
+                        Verbindungsdaten Kopieren
+                    </button>
+                </div>
+            </div>
+            
+            <div class="discord-section">
+                <h3 class="discord-title">Tritt unserer Community bei</h3>
+                <a href="https://discord.gg/a8VQBX7PE6" target="_blank" class="discord-btn">
+                    <span class="discord-icon">💬</span>
+                    Discord Server
+                </a>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🏙️</div>
+                    <div class="feature-title">Citybuild</div>
+                    <div class="feature-desc">Baue deine Traumstadt mit Freunden in unserer riesigen Welt voller Möglichkeiten</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Hochperformant</div>
+                    <div class="feature-desc">Schnelle und stabile Server für das beste Spielerlebnis ohne Lags</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">Geschützt</div>
+                    <div class="feature-desc">Erweiterte Anti-Grief Systeme schützen deine Bauwerke vor Vandalismus</div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">👥</div>
+                    <div class="feature-title">Community</div>
+                    <div class="feature-desc">Werde Teil unserer freundlichen Gemeinschaft von Baumeistern und Kreativen</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 ToxicMC.de - Dein Premium Minecraft Citybuild Erlebnis</p>
+            <p style="font-size: 14px; opacity: 0.8;">Bereit dein Imperium zu bauen? Komm zu uns!</p>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        function copyToClipboard(text, type) {
+            navigator.clipboard.writeText(text).then(function() {
+                showNotification(`${type} erfolgreich kopiert!`);
+            }).catch(function() {
+                // Fallback für ältere Browser
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification(`${type} erfolgreich kopiert!`);
+            });
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Smooth scroll animations on load
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.server-card, .feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
